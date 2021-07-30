@@ -1,11 +1,13 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import DashboardIcon from '../../assets/icons/dashboard-icon.svg';
+import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
+import MonetusIcon from '../../../assets/icons/monetus-icon.svg';
+
+import useStyles from '../../../styles/hooks/useStyles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,19 +42,6 @@ function a11yProps(index: any) {
   };
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-  },
-  tabs: {
-    color: theme.palette.primary.main,
-    borderRight: `1px solid ${theme.palette.divider}`,
-    height: '100vh',
-  },
-}));
-
 const HomePage: React.FC = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(1);
@@ -62,7 +51,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <main className={classes.main}>
       <Tabs
         orientation="vertical"
         value={value}
@@ -70,16 +59,24 @@ const HomePage: React.FC = () => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label={<DashboardIcon />} {...a11yProps(0)} disabled />
-        <Tab label="Dashboard" {...a11yProps(1)} />
+        <Tab
+          label={<MonetusIcon />}
+          {...a11yProps(0)}
+          disabled
+          style={{ opacity: '1' }}
+          className={classes.tab}
+        />
+        <Tab
+          label={<DashboardIcon style={{ zoom: '1.5' }} />}
+          {...a11yProps(1)}
+          className={classes.tab}
+        />
       </Tabs>
-      {/* <TabPanel value={value} index={0}>
-        Dashboard
-      </TabPanel> */}
+
       <TabPanel value={value} index={1}>
         Dashboard
       </TabPanel>
-    </div>
+    </main>
   );
 };
 
