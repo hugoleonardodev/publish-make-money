@@ -1,9 +1,10 @@
 import https from 'https';
-import { ClientRequest } from 'http';
+// import { ClientRequest } from 'http';
 
 import { BASE_URL } from '../../common/constants';
 
 import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+import { CompanyQuote } from '../../core/hooks/useStocks';
 
 /**
  * Handles HTTP requests of type "GET" to IEX API.
@@ -12,7 +13,7 @@ import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
  * Check https://cloud.iexapis.com/ for more informations.
  */
 
-const getCompanyQuoteBySymbol = (symbol = 'MSFT'): Promise<ClientRequest> => {
+const getCompanyQuoteBySymbol = (symbol = 'MSFT'): Promise<CompanyQuote> => {
   return new Promise((resolve, _reject) => {
     https.get(`${BASE_URL}${symbol}/quote/${TOKEN_PUBLISHABLE}`, (response) => {
       response.on('data', (data) => {

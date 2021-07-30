@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import React from 'react';
+import { StocksProvider } from '../core/hooks/useStocks';
 
 import '../public/nprogress.css';
 import { GlobalCss } from '../styles/global';
@@ -23,9 +24,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
 
   return (
     <ThemeProvider theme={MonetusTheme}>
-      <GlobalCss />
-      <CssBaseline />
-      <Component {...pageProps} router={router} />
+      <StocksProvider>
+        <GlobalCss />
+        <CssBaseline />
+        <Component {...pageProps} router={router} />
+      </StocksProvider>
     </ThemeProvider>
   );
 };
