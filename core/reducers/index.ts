@@ -1,10 +1,12 @@
+import intradayAppl from '../../common/constants/INTRADAY_APPL';
+import quoteAPPL from '../../common/constants/QUOTE_APPL';
 import { Action, StocksReducer } from '../actions';
 import { CompanyQuote, IntradayPrice } from '../hooks/useStocks';
 
 export const initialState = {
-  currentPrice: {} as CompanyQuote,
-  lastPrice: {} as CompanyQuote,
-  intradayPrice: [] as IntradayPrice[],
+  currentPrice: quoteAPPL as CompanyQuote,
+  lastPrice: quoteAPPL as CompanyQuote,
+  intradayPrice: intradayAppl as IntradayPrice[],
 };
 
 export const stocksReducer = (state = initialState, action: Action): any => {

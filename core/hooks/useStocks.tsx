@@ -1,8 +1,9 @@
 import React from 'react';
-import {
-  // getCompanyInfoBySymbol,
-  getCompanyQuoteBySymbol,
-} from '../../services/api';
+// import {
+//   getCompanyIntradayPricesBySymbol,
+//   // getCompanyInfoBySymbol,
+//   getCompanyQuoteBySymbol,
+// } from '../../services/api';
 
 import { Action } from '../actions';
 
@@ -41,58 +42,58 @@ export interface IntradayPrice {
 export interface CompanyQuote {
   symbol: string;
   companyName: string;
-  primaryExchange: string;
-  calculationPrice: string;
-  open: null | number;
-  openTime: null | string;
-  openSource: string;
-  close: null | number;
-  closeTime: null;
-  closeSource: string;
-  high: null | number;
-  highTime: number;
-  highSource: string;
-  low: null | number;
-  lowTime: null | string;
-  lowSource: null | number;
+  primaryExchange: string | null;
+  calculationPrice: string | null;
+  open: number | null;
+  openTime: number | null;
+  openSource: string | null;
+  close: number | null;
+  closeTime: number | null;
+  closeSource: string | null;
+  high: number | null;
+  highTime: number | null;
+  highSource: string | null;
+  low: number | null;
+  lowTime: number | null;
+  lowSource: string | null;
   latestPrice: number;
-  latestSource: string;
-  latestTime: string;
-  latestUpdate: number;
-  latestVolume: null | number;
-  iexRealtimePrice: number;
-  iexRealtimeSize: number;
-  iexLastUpdated: number;
-  delayedPrice: null | number;
-  delayedPriceTime: null | string;
-  oddLotDelayedPrice: null | number;
-  oddLotDelayedPriceTime: null | string;
-  extendedPrice: null | number;
-  extendedChange: null | number;
-  extendedChangePercent: null | number;
-  extendedPriceTime: null | string;
-  previousClose: number;
-  previousVolume: number;
-  change: number;
-  changePercent: number;
-  volume: null | number;
-  iexMarketPercent: number;
-  iexVolume: number;
-  avgTotalVolume: number;
-  iexBidPrice: number;
-  iexBidSize: number;
-  iexAskPrice: number;
-  iexAskSize: number;
-  iexOpen: number;
-  iexOpenTime: number;
-  iexClose: number;
-  iexCloseTime: number;
-  marketCap: number;
-  peRatio: number;
-  week52High: number;
-  week52Low: number;
-  ytdChange: number;
-  lastTradeTime: number;
+  latestSource: string | null;
+  latestTime: string | null;
+  latestUpdate: number | null;
+  latestVolume: number | null;
+  iexRealtimePrice: number | null;
+  iexRealtimeSize: number | null;
+  iexLastUpdated: number | null;
+  delayedPrice: number | null;
+  delayedPriceTime: number | null;
+  oddLotDelayedPrice: number | null;
+  oddLotDelayedPriceTime: number | null;
+  extendedPrice: number | null;
+  extendedChange: number | null;
+  extendedChangePercent: number | null;
+  extendedPriceTime: number | null;
+  previousClose: number | null;
+  previousVolume: number | null;
+  change: number | null;
+  changePercent: number | null;
+  volume: number | null;
+  iexMarketPercent: number | null;
+  iexVolume: number | null;
+  avgTotalVolume: number | null;
+  iexBidPrice: number | null;
+  iexBidSize: number | null;
+  iexAskPrice: number | null;
+  iexAskSize: number | null;
+  iexOpen: number | null;
+  iexOpenTime: number | null;
+  iexClose: number | null;
+  iexCloseTime: number | null;
+  marketCap: number | null;
+  peRatio: number | null;
+  week52High: number | null;
+  week52Low: number | null;
+  ytdChange: number | null;
+  lastTradeTime: number | null;
   currency: 'USD';
   isUSMarketOpen: boolean;
 }
@@ -123,18 +124,58 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  React.useEffect(() => {
-    (async function () {
-      const resultQuote = await getCompanyQuoteBySymbol('AAPL');
-      // console.log(resultQuote);
-      if (resultQuote.symbol === 'AAPL') {
-        setStock({
-          type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-          payload: resultQuote,
-        });
-      }
-    })();
-  }, []);
+  // React.useEffect(() => {
+  //   (async function () {
+  //     // setIsLoading(true);
+  //     const resultQuote = await getCompanyQuoteBySymbol('AAPL');
+  //     // console.log(resultQuote);
+  //     if (resultQuote.symbol === 'AAPL') {
+  //       setStock({
+  //         type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+  //         payload: resultQuote,
+  //       });
+  //     }
+  //     const resultIntradayPrices = await getCompanyIntradayPricesBySymbol(
+  //       'AAPL'
+  //     );
+  //     console.log(resultIntradayPrices);
+  //     if (resultIntradayPrices.length > 0) {
+  //       setStock({
+  //         type: '@stocks/UPDATE_INTRADAY_PRICES',
+  //         payload: resultIntradayPrices,
+  //       });
+  //       // setIsLoading(false);
+  //       // setIsLoading(true);
+  //     }
+  //   })();
+  // }, []);
+
+  // React.useEffect(() => {
+  //   async function getData() {
+  //     // setIsLoading(true);
+  //     const resultQuote = await getCompanyQuoteBySymbol('AAPL');
+  //     // console.log(resultQuote);
+  //     if (resultQuote.symbol === 'AAPL') {
+  //       setStock({
+  //         type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+  //         payload: resultQuote,
+  //       });
+  //     }
+  //     const resultIntradayPrices = await getCompanyIntradayPricesBySymbol(
+  //       'AAPL'
+  //     );
+  //     console.log(resultIntradayPrices);
+  //     if (resultIntradayPrices.length > 0) {
+  //       setStock({
+  //         type: '@stocks/UPDATE_INTRADAY_PRICES',
+  //         payload: resultIntradayPrices,
+  //       });
+  //       // setIsLoading(false);
+  //       // setIsLoading(true);
+  //     }
+  //   }
+  //   getData();
+  // }, [isLoading, setIsLoading]);
 
   return (
     <StocksContext.Provider

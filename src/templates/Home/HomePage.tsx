@@ -1,13 +1,14 @@
 import React from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
-import MonetusIcon from '../../../assets/icons/monetus-icon.svg';
+import MonetusIcon from '../../../assets/logos/monetus-icon.svg';
 
 import useStyles from '../../../styles/hooks/useStyles';
+import HomeDashboard from '../../layouts/HomeDashboard/HomeDashboard';
+// import { useStocks } from '../../../core/hooks/useStocks';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -26,11 +27,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -44,12 +41,14 @@ function a11yProps(index: any) {
 
 const HomePage: React.FC = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  // const { isLoading } = useStocks();
+
+  const [value, setValue] = React.useState(2);
 
   const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
     setValue(newValue);
   };
-
+  // if (isLoading) return <div>Loading</div>;
   return (
     <main className={classes.main}>
       <Tabs
@@ -67,14 +66,21 @@ const HomePage: React.FC = () => {
           className={classes.tab}
         />
         <Tab
-          label={<DashboardIcon style={{ zoom: '1.5' }} />}
+          label={''}
           {...a11yProps(1)}
+          disabled
+          style={{ opacity: '1' }}
+          className={classes.tab}
+        />
+        <Tab
+          label={<DashboardIcon style={{ zoom: '1.5' }} />}
+          {...a11yProps(2)}
           className={classes.tab}
         />
       </Tabs>
 
-      <TabPanel value={value} index={1}>
-        Dashboard
+      <TabPanel value={value} index={2}>
+        <HomeDashboard />
       </TabPanel>
     </main>
   );

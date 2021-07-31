@@ -1,13 +1,11 @@
 import https from 'https';
-// import { ClientRequest } from 'http';
 
 import { BASE_URL } from '../../common/constants';
-
-import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
 import { CompanyQuote } from '../../core/hooks/useStocks';
+import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
 
 /**
- * Handles HTTP requests of type "GET" to IEX API.
+ * Handles HTTP requests of type "GET" to IEX API. Returns company quotes object.
  * @symbol : four letters string for a Nasdaq company. Ex: MSFT = Microsoft.
  * You need to create a IEX API user to get a publishable free token .
  * Check https://cloud.iexapis.com/ for more informations.

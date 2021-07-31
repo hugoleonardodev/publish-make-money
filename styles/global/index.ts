@@ -10,9 +10,26 @@ export const GlobalCss = withStyles({
     '.PrivateTabIndicator-vertical-7': {
       left: '0',
     },
-    // '.MuiTab-root': {
-    //   minWidth: '96px',
-    // },
+    '.MuiTooltip-tooltip': {
+      backgroundColor: '#0047bb',
+    },
+    '.MuiTooltip-arrow': {
+      color: '#0047bb',
+    },
+    '.MuiButton-root': {
+      padding: 0,
+      minWidth: 40,
+    },
+    '.MuiOutlinedInput-input': {
+      padding: '11px 14px',
+      backgroundColor: '#fff',
+    },
+    '.MuiInputLabel-outlined': {
+      transform: 'translate(14px, 12px) scale(1)',
+    },
+    '.MuiBox-root-10': {
+      backgroundColor: ' rgba(0, 0, 255, 0.08)',
+    },
     body: {
       height: '100vh',
       width: '100vw',
