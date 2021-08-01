@@ -35,4 +35,4 @@ const monetus = createTheme({
   },
 });
 
-export const MonetusTheme = responsiveFontSizes(monetus);
+export const monetusTheme = responsiveFontSizes(monetus);

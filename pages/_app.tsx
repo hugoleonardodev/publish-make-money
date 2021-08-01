@@ -5,13 +5,13 @@ import { StocksProvider } from '../core/hooks/useStocks';
 
 import '../public/nprogress.css';
 import { GlobalCss } from '../styles/global';
-import { MonetusTheme } from '../styles/themes/muiThemes';
+import { monetusTheme } from '../styles/themes/muiThemes';
+
+interface JssStyles extends Element {
+  parentNode: Node & ParentNode;
+}
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
-  interface JssStyles extends Element {
-    parentNode: Node & ParentNode;
-  }
-
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles: JssStyles | null =
@@ -23,7 +23,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={MonetusTheme}>
+    <ThemeProvider theme={monetusTheme}>
       <StocksProvider>
         <GlobalCss />
         <CssBaseline />

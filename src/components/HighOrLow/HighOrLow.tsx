@@ -8,8 +8,8 @@ interface HighOrLowProps {
   lastQuote: number;
 }
 
-const SUCCESS = '#79c300';
-const ERROR = '#d64b45';
+export const SUCCESS = '#79c300';
+export const ERROR = '#d64b45';
 
 const getRoughDifference = (currentQuote: number, lastQuote: number) => {
   const roughDifference = currentQuote - lastQuote;

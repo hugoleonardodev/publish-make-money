@@ -4,10 +4,11 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
-import MonetusIcon from '../../../assets/logos/monetus-icon.svg';
+import MonetusLogo from '../../../assets/logos/monetus-logo.svg';
 
 import useStyles from '../../../styles/hooks/useStyles';
 import HomeDashboard from '../../layouts/HomeDashboard/HomeDashboard';
+import FavoriteCompanies from '../../layouts/FavoriteCompanies/FavoriteCompanies';
 // import { useStocks } from '../../../core/hooks/useStocks';
 
 interface TabPanelProps {
@@ -59,7 +60,7 @@ const HomePage: React.FC = () => {
         className={classes.tabs}
       >
         <Tab
-          label={<MonetusIcon />}
+          label={<MonetusLogo />}
           {...a11yProps(0)}
           disabled
           style={{ opacity: '1' }}
@@ -80,7 +81,10 @@ const HomePage: React.FC = () => {
       </Tabs>
 
       <TabPanel value={value} index={2}>
-        <HomeDashboard />
+        <div style={{ display: 'flex' }}>
+          <HomeDashboard />
+          <FavoriteCompanies />
+        </div>
       </TabPanel>
     </main>
   );

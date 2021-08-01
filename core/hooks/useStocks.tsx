@@ -1,17 +1,15 @@
 import React from 'react';
-import { BASE_URL } from '../../common/constants';
-import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+
 import { getCompanyQuoteBySymbol } from '../../services/api';
-// import {
-//   getCompanyIntradayPricesBySymbol,
-//   // getCompanyInfoBySymbol,
-//   getCompanyQuoteBySymbol,
-// } from '../../services/api';
+
+import getLocalStorage from '../../services/store/getLocalStorage';
 
 import { Action } from '../actions';
 
 import { initialState, stocksReducer } from '../reducers/index';
 
+import { BASE_URL } from '../../common/constants';
+import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
 /**
  * Intraday Price for a company symbol updated every minute.
  * @date : 'yyyy-mm-dd'.
@@ -119,6 +117,7 @@ export interface StocksContextData {
     HTMLTextAreaElement | HTMLInputElement
   >;
   handleSearch: (searchSymbol: any) => Promise<void>;
+  refreshStock: boolean;
 }
 
 export const StocksContext = React.createContext<StocksContextData>(
@@ -132,7 +131,18 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   const [error, setError] = React.useState(false);
 
-  const [symbol, setSymbol] = React.useState('');
+  const [symbol, setSymbol] = React.useState('MSFT');
+
+  const [isMarketOpen, setIsMarketOpen] = React.useState(false);
+
+  const [refreshStock, setRefreshStock] = React.useState(false);
+
+  // const handleIsMarketOpen = useCallback(() => {
+  //   if (stock.currentPrice.isMarketOpen) {
+  //     setIsMarketOpen(true);
+  //   }
+  //   setIsMarketOpen(false);
+  // }, []);
 
   const handleInputSymbol = React.useCallback(
     (event) => {
@@ -141,104 +151,100 @@ export const StocksProvider: React.FC = ({ children }) => {
     [setSymbol]
   );
 
+  const handleRequest = (
+    searchSymbol: string,
+    setStock: React.Dispatch<Action>,
+    companyQuote: CompanyQuote
+  ) => {
+    const Http = new XMLHttpRequest();
+    const url = `${BASE_URL}${searchSymbol}/intraday-prices/${TOKEN_PUBLISHABLE}`;
+    Http.open('GET', url);
+    Http.send();
+    Http.onreadystatechange = (_e) => {
+      const intradayPrices = JSON.parse(Http.responseText);
+      setStock({
+        type: '@stocks/UPDATE_INTRADAY_PRICES',
+        payload: intradayPrices as IntradayPrice[],
+      });
+      setStock({
+        type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+        payload: companyQuote,
+      });
+    };
+  };
+
   const handleSearch = React.useCallback(
     async (searchSymbol = 'MSFT') => {
       setIsLoading(true);
-      // const intradayPrices = await getCompanyIntradayPricesBySymbol(
-      //   searchSymbol
-      // );
+
       const companyQuote = await getCompanyQuoteBySymbol(searchSymbol);
-      // console.log(
-      //   'useStock line 131 intradayPrices and companyQuote',
-      //   intradayPrices,
-      //   companyQuote
-      // );
-      const Http = new XMLHttpRequest();
-      const url = `${BASE_URL}${searchSymbol}/intraday-prices/${TOKEN_PUBLISHABLE}`;
-      Http.open('GET', url);
-      // if (Http.status === 404) {
-      //   setError(true);
-      // }
-      // Http.onerror = (_e) => {
-      //   setError(true);
-      // };
-      // Http.status;
-      Http.send();
-      Http.onreadystatechange = (_e) => {
-        // console.log(Http.status);
-        // if (Http.status === 404) {
-        //   setError(true);
-        // }
-        // console.log(JSON.parse(Http.responseText));
-        const intradayPrices = JSON.parse(Http.responseText);
-        setStock({
-          type: '@stocks/UPDATE_INTRADAY_PRICES',
-          payload: intradayPrices as IntradayPrice[],
-        });
-        setStock({
-          type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-          payload: companyQuote,
-        });
-      };
-      // const response = await JSON.parse(Http.responseText);
-      // console.log(response);
-      setIsLoading(false);
+
+      handleRequest(searchSymbol, setStock, companyQuote);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     },
     [setStock, setIsLoading]
   );
 
-  // React.useEffect(() => {
-  //   (async function () {
-  //     // setIsLoading(true);
-  //     const resultQuote = await getCompanyQuoteBySymbol('AAPL');
-  //     // console.log(resultQuote);
-  //     if (resultQuote.symbol === 'AAPL') {
-  //       setStock({
-  //         type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-  //         payload: resultQuote,
-  //       });
-  //     }
-  //     const resultIntradayPrices = await getCompanyIntradayPricesBySymbol(
-  //       'AAPL'
-  //     );
-  //     console.log(resultIntradayPrices);
-  //     if (resultIntradayPrices.length > 0) {
-  //       setStock({
-  //         type: '@stocks/UPDATE_INTRADAY_PRICES',
-  //         payload: resultIntradayPrices,
-  //       });
-  //       // setIsLoading(false);
-  //       // setIsLoading(true);
-  //     }
-  //   })();
-  // }, []);
+  React.useEffect(() => {
+    (async function () {
+      setIsLoading(true);
+      const store = getLocalStorage();
+      const lastFavorite =
+        store.favoriteCompanies[store.favoriteCompanies.length - 1];
+      const resultQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+      if (resultQuote.isUSMarketOpen) {
+        setIsMarketOpen(true);
+        handleRequest(lastFavorite.symbol, setStock, resultQuote);
+      }
 
-  // React.useEffect(() => {
-  //   async function getData() {
-  //     // setIsLoading(true);
-  //     const resultQuote = await getCompanyQuoteBySymbol('AAPL');
-  //     // console.log(resultQuote);
-  //     if (resultQuote.symbol === 'AAPL') {
-  //       setStock({
-  //         type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-  //         payload: resultQuote,
-  //       });
-  //     }
-  //     const resultIntradayPrices = await getCompanyIntradayPricesBySymbol(
-  //       'AAPL'
-  //     );
-  //     console.log(resultIntradayPrices);
-  //     if (resultIntradayPrices.length > 0) {
-  //       setStock({
-  //         type: '@stocks/UPDATE_INTRADAY_PRICES',
-  //         payload: resultIntradayPrices,
-  //       });
-  //       // setIsLoading(false);
-  //       // setIsLoading(true);
-  //     }
-  //   }
-  //   getData();
-  // }, [isLoading, setIsLoading]);
+      handleRequest(lastFavorite.symbol, setStock, resultQuote);
+
+      setIsLoading(false);
+    })();
+  }, []);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Refresh Charts every minute if isMarketOpen');
+    const oneMinuteTimer = setTimeout(async () => {
+      const store = getLocalStorage();
+
+      const lastFavorite =
+        store.favoriteCompanies[store.favoriteCompanies.length - 1];
+
+      const resultQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+
+      if (resultQuote.isUSMarketOpen) {
+        setIsMarketOpen(true);
+        handleRequest(lastFavorite.name, setStock, resultQuote);
+      }
+      handleRequest(lastFavorite.name, setStock, resultQuote);
+    }, 5000);
+
+    return () => clearTimeout(oneMinuteTimer);
+  }, [setIsMarketOpen]);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Refresh Indicator High/Low every 5 seconds if isMarketOpen');
+    const fiveSecondsTimer = setTimeout(async () => {
+      if (isMarketOpen) {
+        const store = getLocalStorage();
+        const lastFavorite =
+          store.favoriteCompanies[store.favoriteCompanies.length - 1];
+        const companyQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+        setStock({
+          type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+          payload: companyQuote,
+        });
+        setRefreshStock(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(fiveSecondsTimer);
+  }, [isMarketOpen, setRefreshStock]);
 
   return (
     <StocksContext.Provider
@@ -252,6 +258,7 @@ export const StocksProvider: React.FC = ({ children }) => {
         symbol,
         handleInputSymbol,
         handleSearch,
+        refreshStock,
       }}
     >
       {children}

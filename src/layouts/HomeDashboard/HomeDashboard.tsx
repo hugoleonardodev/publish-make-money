@@ -16,6 +16,7 @@ import RechartToolTip from '../../components/RechartToolTip/RechartToolTip';
 import Search from '../../../assets/icons/search-icon.svg';
 import useStyles from '../../../styles/hooks/useStyles';
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
+import LoadingChart from '../../components/LoadingChart/LoadingChart';
 
 const domain = [
   '09:30',
@@ -69,7 +70,7 @@ const HomeDashboard: React.FC = () => {
     return null;
   };
   return (
-    <section>
+    <section style={{ margin: '32px' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <DashboardIcon style={{ zoom: '1.5' }} />
         <h1 style={{ marginLeft: '16px' }}>Dasboard</h1>
@@ -100,7 +101,7 @@ const HomeDashboard: React.FC = () => {
         }}
       >
         {isLoading ? (
-          <h1>ERROR</h1>
+          <LoadingChart />
         ) : (
           <>
             <div style={{ display: 'flex', marginLeft: '24px' }}>
