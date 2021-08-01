@@ -32,7 +32,8 @@ const domain = [
 
 const HomeDashboard: React.FC = () => {
   const styles = useStyles();
-  const { stock } = useStocks();
+  const { stock, handleInputSymbol, symbol, handleSearch, isLoading } =
+    useStocks();
   const { intradayPrice } = stock;
   const parseData = (intradayData: IntradayPrice[]) => {
     const domainHours = intradayData.map((e: IntradayPrice) => {
@@ -78,9 +79,14 @@ const HomeDashboard: React.FC = () => {
           id="outlined-basic"
           label="Buscar empresa"
           variant="outlined"
+          onChange={handleInputSymbol}
+          value={symbol}
         />
 
-        <Button className={styles.searchButton}>
+        <Button
+          className={styles.searchButton}
+          onClick={() => handleSearch(symbol)}
+        >
           <Search style={{ zoom: '1.5' }} />
         </Button>
       </div>
@@ -88,66 +94,61 @@ const HomeDashboard: React.FC = () => {
         style={{
           backgroundColor: '#fff',
           marginTop: '32px',
-          paddingTop: '28px',
+          padding: '28px 20px 28px 20px',
           boxShadow: '0px 4px 12px rgb(222 222 231 / 40%)',
           borderRadius: '8px',
         }}
       >
-        <div style={{ display: 'flex', marginLeft: '24px' }}>
-          <FavoriteButton />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '100%',
-              marginLeft: '8px',
-            }}
-          >
-            <CompanyName
-              companySymbol={stock.currentPrice.symbol}
-              companyName={stock.currentPrice.companyName}
-            />
-            <HighOrLow
-              currentQuote={stock.currentPrice.latestPrice}
-              lastQuote={stock.intradayPrice[0].close}
-            />
-          </div>
-        </div>
-        <AreaChart
-          width={720}
-          height={320}
-          data={data}
-          style={{ marginTop: '16px' }}
-        >
-          <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="5%" stopColor="#0047BB" stopOpacity={0.8} />
-              <stop offset="70%" stopColor="#0047BB" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          {/* <Line
-          type="monotone"
-          dataKey="uv"
-          stroke="#0047BB"
-          strokeWidth="2px"
-          activeDot={{ stroke: '#0047BB', strokeWidth: 2, r: 6.29 }}
-        /> */}
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis
-            domain={[intradayPrice[0].low - 0.75, intradayPrice[0].high + 0.75]}
-          />
-
-          <Tooltip content={<CustomTooltip />} />
-
-          <Area
-            type="monotone"
-            dataKey="uv"
-            stroke="#0047BB"
-            fillOpacity={1}
-            fill="url(#colorUv)"
-          />
-        </AreaChart>
+        {isLoading ? (
+          <h1>ERROR</h1>
+        ) : (
+          <>
+            <div style={{ display: 'flex', marginLeft: '24px' }}>
+              <FavoriteButton />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  marginLeft: '8px',
+                }}
+              >
+                <CompanyName
+                  companySymbol={stock.currentPrice.symbol}
+                  companyName={stock.currentPrice.companyName}
+                />
+                <HighOrLow
+                  currentQuote={stock.currentPrice.latestPrice}
+                  lastQuote={stock.intradayPrice[0].close}
+                />
+              </div>
+            </div>
+            <AreaChart
+              width={720}
+              height={320}
+              data={data}
+              style={{ marginTop: '16px' }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="5%" stopColor="#0047BB" stopOpacity={0.8} />
+                  <stop offset="70%" stopColor="#0047BB" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis domain={[intradayPrice[0].low, intradayPrice[0].high]} />
+              <Tooltip content={<CustomTooltip />} />
+              <Area
+                type="monotone"
+                dataKey="uv"
+                stroke="#0047BB"
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+            </AreaChart>
+          </>
+        )}
       </div>
     </section>
   );

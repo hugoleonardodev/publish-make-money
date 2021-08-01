@@ -1,4 +1,7 @@
 import React from 'react';
+import { BASE_URL } from '../../common/constants';
+import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+import { getCompanyQuoteBySymbol } from '../../services/api';
 // import {
 //   getCompanyIntradayPricesBySymbol,
 //   // getCompanyInfoBySymbol,
@@ -111,6 +114,11 @@ export interface StocksContextData {
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  symbol: string;
+  handleInputSymbol: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  >;
+  handleSearch: (searchSymbol: any) => Promise<void>;
 }
 
 export const StocksContext = React.createContext<StocksContextData>(
@@ -120,9 +128,64 @@ export const StocksContext = React.createContext<StocksContextData>(
 export const StocksProvider: React.FC = ({ children }) => {
   const [stock, setStock] = React.useReducer(stocksReducer, initialState);
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const [error, setError] = React.useState(false);
 
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [symbol, setSymbol] = React.useState('');
+
+  const handleInputSymbol = React.useCallback(
+    (event) => {
+      setSymbol(event.target.value);
+    },
+    [setSymbol]
+  );
+
+  const handleSearch = React.useCallback(
+    async (searchSymbol = 'MSFT') => {
+      setIsLoading(true);
+      // const intradayPrices = await getCompanyIntradayPricesBySymbol(
+      //   searchSymbol
+      // );
+      const companyQuote = await getCompanyQuoteBySymbol(searchSymbol);
+      // console.log(
+      //   'useStock line 131 intradayPrices and companyQuote',
+      //   intradayPrices,
+      //   companyQuote
+      // );
+      const Http = new XMLHttpRequest();
+      const url = `${BASE_URL}${searchSymbol}/intraday-prices/${TOKEN_PUBLISHABLE}`;
+      Http.open('GET', url);
+      // if (Http.status === 404) {
+      //   setError(true);
+      // }
+      // Http.onerror = (_e) => {
+      //   setError(true);
+      // };
+      // Http.status;
+      Http.send();
+      Http.onreadystatechange = (_e) => {
+        // console.log(Http.status);
+        // if (Http.status === 404) {
+        //   setError(true);
+        // }
+        // console.log(JSON.parse(Http.responseText));
+        const intradayPrices = JSON.parse(Http.responseText);
+        setStock({
+          type: '@stocks/UPDATE_INTRADAY_PRICES',
+          payload: intradayPrices as IntradayPrice[],
+        });
+        setStock({
+          type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+          payload: companyQuote,
+        });
+      };
+      // const response = await JSON.parse(Http.responseText);
+      // console.log(response);
+      setIsLoading(false);
+    },
+    [setStock, setIsLoading]
+  );
 
   // React.useEffect(() => {
   //   (async function () {
@@ -186,6 +249,9 @@ export const StocksProvider: React.FC = ({ children }) => {
         setError,
         isLoading,
         setIsLoading,
+        symbol,
+        handleInputSymbol,
+        handleSearch,
       }}
     >
       {children}

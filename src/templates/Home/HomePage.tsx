@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
           className={classes.tab}
         />
         <Tab
-          label={<DashboardIcon style={{ zoom: '1.5' }} />}
+          label={<DashboardIcon style={{ zoom: '1.5', fill: '#0047BB' }} />}
           {...a11yProps(2)}
           className={classes.tab}
         />

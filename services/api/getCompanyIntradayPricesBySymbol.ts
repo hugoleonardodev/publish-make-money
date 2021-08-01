@@ -28,7 +28,7 @@ const getCompanyQuoteBySymbol = (symbol = 'MSFT'): Promise<IntradayPrice[]> => {
           // console.log('fouth sliced char', sliced[3]);
           // console.log('fifth sliced char', sliced[4]);
           const array = sliced.split('}');
-          console.log(array.length);
+          // console.log(array.length);
           const parseArray = array.map((e, i) => {
             if (i > 0 && i < array.length - 1) {
               const sli = e.slice(1);
@@ -37,7 +37,7 @@ const getCompanyQuoteBySymbol = (symbol = 'MSFT'): Promise<IntradayPrice[]> => {
               return obj;
             }
           });
-          console.log(parseArray.length);
+          // console.log(parseArray.length);
 
           // console.log(sliced.split('}'));
           // console.log('last sliced char', sliced[sliced.length - 1]);
@@ -47,7 +47,7 @@ const getCompanyQuoteBySymbol = (symbol = 'MSFT'): Promise<IntradayPrice[]> => {
             ...parseArray.slice(1),
             ...parseArray.slice(parseArray.length - 1),
           ];
-          console.log(result.length);
+          // console.log(result.length);
           return resolve(result);
         });
       }
