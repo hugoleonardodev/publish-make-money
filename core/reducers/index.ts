@@ -3,6 +3,12 @@ import quoteAPPL from '../../common/constants/QUOTE_APPL';
 import { Action, StocksReducer } from '../actions';
 import { CompanyQuote, IntradayPrice } from '../hooks/useStocks';
 
+export interface InitialState {
+  currentPrice: CompanyQuote;
+  lastPrice: CompanyQuote;
+  intradayPrice: IntradayPrice[];
+}
+
 export const initialState = {
   currentPrice: quoteAPPL as CompanyQuote,
   lastPrice: quoteAPPL as CompanyQuote,

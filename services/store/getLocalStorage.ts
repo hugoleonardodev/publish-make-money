@@ -1,16 +1,17 @@
 import STORAGE_OBJECT from '../../common/constants/STORAGE_OBJECT';
+import { StorageObject } from './setLocalStorage';
 
-interface StorageCompanies {
-  name: string;
-  symbol: string;
-  rating: number;
-}
-export interface StorageObject {
-  recentCompanies: StorageCompanies[];
-  favoriteCompanies: StorageCompanies[];
-  userName: string;
-  publishableToken: string;
-}
+// interface StorageCompanies {
+//   name: string;
+//   symbol: string;
+//   rating: number;
+// }
+// export interface StorageObject {
+//   recentCompanies: StorageCompanies[];
+//   favoriteCompanies: StorageCompanies[];
+//   userName: string;
+//   publishableToken: string;
+// }
 
 const getLocalStorage = (): StorageObject => {
   const storage = localStorage.getItem('monetusMoney');

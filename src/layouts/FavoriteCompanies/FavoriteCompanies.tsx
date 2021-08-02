@@ -1,7 +1,5 @@
 import React from 'react';
-import getLocalStorage, {
-  StorageObject,
-} from '../../../services/store/getLocalStorage';
+import getLocalStorage from '../../../services/store/getLocalStorage';
 import FavoriteCompaniesCard from '../../components/FavoriteCompaniesCard/FavoriteCompaniesCard';
 import UserOptionsDropdown from '../../components/UserOptionsDropdown/UserOptionsDropdown';
 import FavoriteCompaniesList from '../../containers/FavoriteCompaniesList/FavoriteCompaniesList';
@@ -9,14 +7,22 @@ import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
 import LoadingChart from '../../components/LoadingChart/LoadingChart';
 
 import TrashIcon from '../../../assets/icons/trash-icon.svg';
+import { StorageObject } from '../../../services/store/setLocalStorage';
+import { useStocks } from '../../../core/hooks/useStocks';
 
 const FavoriteCompanies: React.FC = () => {
+  const { refreshRecents, setRefreshRecents } = useStocks();
   const [storage, setStorage] = React.useState({} as StorageObject);
 
   React.useEffect(() => {
     const store = getLocalStorage();
     setStorage(store);
   }, []);
+  React.useEffect(() => {
+    const store = getLocalStorage();
+    setStorage(store);
+    setRefreshRecents(false);
+  }, [refreshRecents, setRefreshRecents]);
   return (
     <div style={{ width: '392px', backgroundColor: '#fafafa' }}>
       {!storage.favoriteCompanies ? (

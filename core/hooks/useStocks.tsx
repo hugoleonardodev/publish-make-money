@@ -6,10 +6,12 @@ import getLocalStorage from '../../services/store/getLocalStorage';
 
 import { Action } from '../actions';
 
-import { initialState, stocksReducer } from '../reducers/index';
+import { InitialState, initialState, stocksReducer } from '../reducers/index';
 
 import { BASE_URL } from '../../common/constants';
 import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+import updateRecentCompanies from '../../services/store/updateRecentCompanies';
+import { StorageObject } from '../../services/store/setLocalStorage';
 /**
  * Intraday Price for a company symbol updated every minute.
  * @date : 'yyyy-mm-dd'.
@@ -45,10 +47,10 @@ export interface CompanyQuote {
   companyName: string;
   primaryExchange: string | null;
   calculationPrice: string | null;
-  open: number | null;
+  open: number;
   openTime: number | null;
   openSource: string | null;
-  close: number | null;
+  close: number;
   closeTime: number | null;
   closeSource: string | null;
   high: number | null;
@@ -118,6 +120,9 @@ export interface StocksContextData {
   >;
   handleSearch: (searchSymbol: any) => Promise<void>;
   refreshStock: boolean;
+  refreshRecents: boolean;
+  setRefreshRecents: React.Dispatch<React.SetStateAction<boolean>>;
+  storage: StorageObject;
 }
 
 export const StocksContext = React.createContext<StocksContextData>(
@@ -125,7 +130,10 @@ export const StocksContext = React.createContext<StocksContextData>(
 );
 
 export const StocksProvider: React.FC = ({ children }) => {
-  const [stock, setStock] = React.useReducer(stocksReducer, initialState);
+  const [stock, setStock] = React.useReducer(
+    stocksReducer,
+    initialState as InitialState
+  );
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -137,54 +145,94 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   const [refreshStock, setRefreshStock] = React.useState(false);
 
-  // const handleIsMarketOpen = useCallback(() => {
-  //   if (stock.currentPrice.isMarketOpen) {
-  //     setIsMarketOpen(true);
+  const [refreshRecents, setRefreshRecents] = React.useState(false);
+  const [storage, setStorage] = React.useState({} as StorageObject);
+
+  // console.log(stock);
+  React.useEffect(() => {
+    const store = getLocalStorage();
+    // console.log(store);
+    setStorage(store);
+  }, []);
+  // React.useEffect(() => {
+  //   if (refreshRecents) {
+  //     const store = getLocalStorage();
+  //     // console.log(store);
+  //     setRefreshRecents(false);
+  //     return setStorage(store);
   //   }
-  //   setIsMarketOpen(false);
-  // }, []);
+  //   return setRefreshRecents(false);
+  // }, [refreshRecents, setRefreshRecents]);
 
   const handleInputSymbol = React.useCallback(
     (event) => {
-      setSymbol(event.target.value);
+      setSymbol(event.target.value.toUpperCase());
     },
     [setSymbol]
   );
 
-  const handleRequest = (
-    searchSymbol: string,
-    setStock: React.Dispatch<Action>,
-    companyQuote: CompanyQuote
-  ) => {
-    const Http = new XMLHttpRequest();
-    const url = `${BASE_URL}${searchSymbol}/intraday-prices/${TOKEN_PUBLISHABLE}`;
-    Http.open('GET', url);
-    Http.send();
-    Http.onreadystatechange = (_e) => {
-      const intradayPrices = JSON.parse(Http.responseText);
-      setStock({
-        type: '@stocks/UPDATE_INTRADAY_PRICES',
-        payload: intradayPrices as IntradayPrice[],
-      });
-      setStock({
-        type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-        payload: companyQuote,
-      });
-    };
-  };
+  const handleRequest = React.useCallback(
+    (
+      searchSymbol: string,
+      setStock: React.Dispatch<Action>,
+      companyQuote: CompanyQuote
+    ) => {
+      const Http = new XMLHttpRequest();
+      const url = `${BASE_URL}${searchSymbol}/intraday-prices/${TOKEN_PUBLISHABLE}`;
+      Http.open('GET', url);
+      Http.send();
+      Http.onreadystatechange = (_e) => {
+        const intradayPrices = JSON.parse(Http.responseText);
+        setStock({
+          type: '@stocks/UPDATE_INTRADAY_PRICES',
+          payload: intradayPrices as IntradayPrice[],
+        });
+        setStock({
+          type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+          payload: companyQuote,
+        });
+      };
+    },
+    []
+  );
+
+  const handleRecent = React.useCallback(
+    (searchSymbol: string, companyQuote: CompanyQuote) => {
+      const isRecent = updateRecentCompanies(
+        isLoading,
+        companyQuote,
+        searchSymbol
+      );
+      if (!isRecent) {
+        const store = getLocalStorage();
+        // console.log(store);
+        setStorage(store);
+        setRefreshRecents(true);
+        // eslint-disable-next-line no-console
+        return console.log('Recent Array Updated');
+      }
+      // eslint-disable-next-line no-console
+      return console.log(`Already Visited ${searchSymbol}`);
+    },
+    [isLoading]
+  );
 
   const handleSearch = React.useCallback(
     async (searchSymbol = 'MSFT') => {
       setIsLoading(true);
 
+      // handleRecent(searchSymbol);
+      // console.log(searchSymbol);
       const companyQuote = await getCompanyQuoteBySymbol(searchSymbol);
-
+      // console.log(companyQuote.symbol);
       handleRequest(searchSymbol, setStock, companyQuote);
+
       setTimeout(() => {
+        handleRecent(searchSymbol, companyQuote);
         setIsLoading(false);
-      }, 500);
+      }, 1000);
     },
-    [setStock, setIsLoading]
+    [handleRecent, handleRequest]
   );
 
   React.useEffect(() => {
@@ -199,11 +247,11 @@ export const StocksProvider: React.FC = ({ children }) => {
         handleRequest(lastFavorite.symbol, setStock, resultQuote);
       }
 
-      handleRequest(lastFavorite.symbol, setStock, resultQuote);
+      // handleRequest(lastFavorite.symbol, setStock, resultQuote);
 
       setIsLoading(false);
     })();
-  }, []);
+  }, [handleRequest]);
 
   React.useEffect(() => {
     // eslint-disable-next-line no-console
@@ -220,11 +268,11 @@ export const StocksProvider: React.FC = ({ children }) => {
         setIsMarketOpen(true);
         handleRequest(lastFavorite.name, setStock, resultQuote);
       }
-      handleRequest(lastFavorite.name, setStock, resultQuote);
+      // handleRequest(lastFavorite.name, setStock, resultQuote);
     }, 5000);
 
     return () => clearTimeout(oneMinuteTimer);
-  }, [setIsMarketOpen]);
+  }, [handleRequest, setIsMarketOpen]);
 
   React.useEffect(() => {
     // eslint-disable-next-line no-console
@@ -259,6 +307,9 @@ export const StocksProvider: React.FC = ({ children }) => {
         handleInputSymbol,
         handleSearch,
         refreshStock,
+        refreshRecents,
+        setRefreshRecents,
+        storage,
       }}
     >
       {children}

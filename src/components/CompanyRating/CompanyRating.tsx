@@ -11,7 +11,7 @@ const CompanyRating: React.FC<CompanyRatingProps> = ({ companyRating }) => {
     <div style={{ display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
       <h5 style={{ color: companyRating > 0 ? SUCCESS : ERROR }}>
         {companyRating > 0 && <>+</>}
-        {`${companyRating}%`}
+        {`${companyRating.toFixed(3)}%`}
       </h5>
       {companyRating > 0 ? (
         <HighIcon style={{ marginLeft: '4px' }} />
