@@ -122,8 +122,9 @@ const HomeDashboard: React.FC = () => {
                   companyName={stock.currentPrice.companyName}
                 />
                 <HighOrLow
-                  currentQuote={stock.currentPrice.latestPrice}
-                  lastQuote={stock.intradayPrice[0].close}
+                  change={stock.currentPrice.change}
+                  changePercent={stock.currentPrice.changePercent}
+                  latestPrice={stock.currentPrice.latestPrice}
                 />
               </div>
             </div>

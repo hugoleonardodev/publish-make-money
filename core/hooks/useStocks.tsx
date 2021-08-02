@@ -77,8 +77,8 @@ export interface CompanyQuote {
   extendedPriceTime: number | null;
   previousClose: number | null;
   previousVolume: number | null;
-  change: number | null;
-  changePercent: number | null;
+  change: number;
+  changePercent: number;
   volume: number | null;
   iexMarketPercent: number | null;
   iexVolume: number | null;
@@ -147,6 +147,7 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   const [refreshRecents, setRefreshRecents] = React.useState(false);
   const [storage, setStorage] = React.useState({} as StorageObject);
+  const [refreshChart, setRefreshChart] = React.useState(false);
 
   // console.log(stock);
   React.useEffect(() => {
@@ -238,51 +239,55 @@ export const StocksProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     (async function () {
       setIsLoading(true);
-      const store = getLocalStorage();
-      const lastFavorite =
-        store.favoriteCompanies[store.favoriteCompanies.length - 1];
-      const resultQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+      // const store = getLocalStorage();
+      // const lastFavorite =
+      //   store.favoriteCompanies[store.favoriteCompanies.length - 1];
+      const resultQuote = await getCompanyQuoteBySymbol(symbol);
       if (resultQuote.isUSMarketOpen) {
         setIsMarketOpen(true);
-        handleRequest(lastFavorite.symbol, setStock, resultQuote);
+        handleRequest(symbol, setStock, resultQuote);
       }
 
       // handleRequest(lastFavorite.symbol, setStock, resultQuote);
 
       setIsLoading(false);
     })();
-  }, [handleRequest]);
+  }, [handleRequest, symbol]);
 
   React.useEffect(() => {
     // eslint-disable-next-line no-console
     console.log('Refresh Charts every minute if isMarketOpen');
+    setRefreshChart(true);
     const oneMinuteTimer = setTimeout(async () => {
-      const store = getLocalStorage();
+      // const store = getLocalStorage();
 
-      const lastFavorite =
-        store.favoriteCompanies[store.favoriteCompanies.length - 1];
+      // const lastFavorite =
+      //   store.favoriteCompanies[store.favoriteCompanies.length - 1];
 
-      const resultQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+      const resultQuote = await getCompanyQuoteBySymbol(symbol);
 
       if (resultQuote.isUSMarketOpen) {
+        handleRequest(symbol, setStock, resultQuote);
         setIsMarketOpen(true);
-        handleRequest(lastFavorite.name, setStock, resultQuote);
+        setRefreshChart(false);
       }
       // handleRequest(lastFavorite.name, setStock, resultQuote);
-    }, 5000);
+    }, 60000);
 
     return () => clearTimeout(oneMinuteTimer);
-  }, [handleRequest, setIsMarketOpen]);
+  }, [handleRequest, setIsMarketOpen, symbol, setRefreshChart, refreshChart]);
 
   React.useEffect(() => {
     // eslint-disable-next-line no-console
     console.log('Refresh Indicator High/Low every 5 seconds if isMarketOpen');
+    setRefreshStock(false);
     const fiveSecondsTimer = setTimeout(async () => {
-      if (isMarketOpen) {
-        const store = getLocalStorage();
-        const lastFavorite =
-          store.favoriteCompanies[store.favoriteCompanies.length - 1];
-        const companyQuote = await getCompanyQuoteBySymbol(lastFavorite.symbol);
+      // const store = getLocalStorage();
+      // const lastFavorite =
+      //   store.favoriteCompanies[store.favoriteCompanies.length - 1];
+      const companyQuote = await getCompanyQuoteBySymbol(symbol);
+      // console.log(companyQuote);
+      if (isMarketOpen && !refreshStock) {
         setStock({
           type: '@stocks/UPDATE_REAL_TIME_QUOTES',
           payload: companyQuote,
@@ -292,7 +297,7 @@ export const StocksProvider: React.FC = ({ children }) => {
     }, 5000);
 
     return () => clearTimeout(fiveSecondsTimer);
-  }, [isMarketOpen, setRefreshStock]);
+  }, [isMarketOpen, setRefreshStock, refreshStock, symbol]);
 
   return (
     <StocksContext.Provider

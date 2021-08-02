@@ -19,7 +19,7 @@ const updateRecentCompanies = (
     const newRecentCompany = {
       name: recentSearch.companyName,
       symbol: recentSearch.symbol,
-      rating: recentSearch.close - recentSearch.open,
+      rating: recentSearch.changePercent,
     };
     const newRecentCompaniesArray = [
       newRecentCompany,
