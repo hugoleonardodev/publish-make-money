@@ -8,7 +8,7 @@ interface CompanyRatingProps {
 }
 const CompanyRating: React.FC<CompanyRatingProps> = ({ companyRating }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
       <h5 style={{ color: companyRating > 0 ? SUCCESS : ERROR }}>
         {companyRating > 0 && <>+</>}
         {`${companyRating}%`}

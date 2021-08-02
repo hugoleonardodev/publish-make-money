@@ -31,6 +31,73 @@ export const GlobalCss = withStyles({
       backgroundColor: ' rgba(0, 0, 255, 0.08)',
       padding: 0,
     },
+    '.rec.rec-item-wrapper': {
+      /* padding: 16px !important; */
+      width: '300px !important',
+    },
+    '.rec.rec-arrow.rec-arrow-left': {
+      transform: 'translate(680px, -72px)',
+      background: 'transparent',
+      boxShadow: 'none',
+      position: 'absolute',
+      color: '#0047BB',
+      '&:hover': {
+        background: 'transparent',
+        boxShadow: 'none',
+      },
+      '&:focus': {
+        background: 'transparent',
+        boxShadow: 'none',
+        color: '#0047BB',
+        opacity: '0.7',
+      },
+      '&:disabled': {
+        color: '#0047BB',
+        opacity: '0.7',
+      },
+    },
+    '.rec.rec-arrow.rec-arrow-right': {
+      transform: ' translate(716px, -72px)',
+      background: 'transparent',
+      boxShadow: 'none',
+      position: 'absolute',
+      color: '#0047BB',
+      '&:hover': {
+        background: 'transparent',
+        boxShadow: 'none',
+      },
+      '&:focus': {
+        background: 'transparent',
+        boxShadow: 'none',
+        color: '#0047BB',
+        opacity: '0.7',
+      },
+      '&:disabled': {
+        color: '#0047BB',
+        opacity: '0.7',
+      },
+    },
+    '.MuiAccordionSummary-content': {
+      margin: '0',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+    },
+    '.MuiAccordion-rounded:last-child': {
+      borderBottomLeftRadius: '50px',
+      borderBottomRightRadius: '50px',
+      boxShadow: 'none',
+      border: '1px solid rgba(0,0,255, 0.2)',
+    },
+    '.MuiAccordion-rounded:first-child': {
+      borderTopLeftRadius: '50px',
+      borderTopRightRadius: '50px',
+      boxShadow: 'none',
+      border: '1px solid rgba(0,0,255, 0.2)',
+    },
+    '.MuiAccordion-rounded': {
+      width: '372px',
+      marginLeft: '16px',
+    },
     body: {
       height: '100vh',
       width: '100vw',

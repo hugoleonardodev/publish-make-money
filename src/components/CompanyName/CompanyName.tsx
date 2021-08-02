@@ -1,18 +1,19 @@
 import React from 'react';
+import { CompanySymbol, CompanyTitles } from './styles';
 
-interface CompanyNamePops {
+interface CompanyNameProps {
   companySymbol: string;
   companyName: string;
 }
 
-const CompanyName: React.FC<CompanyNamePops> = ({
+const CompanyName: React.FC<CompanyNameProps> = ({
   companySymbol,
   companyName,
 }) => {
   return (
     <div>
-      <h3 style={{ margin: '0' }}>{companySymbol}</h3>
-      <h5 style={{ margin: '0', opacity: '0.5' }}>{companyName}</h5>
+      <CompanySymbol>{companySymbol}</CompanySymbol>
+      <CompanyTitles>{companyName}</CompanyTitles>
     </div>
   );
 };

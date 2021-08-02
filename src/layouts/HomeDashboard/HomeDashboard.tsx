@@ -17,6 +17,7 @@ import Search from '../../../assets/icons/search-icon.svg';
 import useStyles from '../../../styles/hooks/useStyles';
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
 import LoadingChart from '../../components/LoadingChart/LoadingChart';
+import RecentCompaniesSlider from '../../containers/RecentCompaniesSlider/RecentCompaniesSlider';
 
 const domain = [
   '09:30',
@@ -98,6 +99,8 @@ const HomeDashboard: React.FC = () => {
           padding: '28px 20px 28px 20px',
           boxShadow: '0px 4px 12px rgb(222 222 231 / 40%)',
           borderRadius: '8px',
+          minWidth: '768px',
+          minHeight: '432px',
         }}
       >
         {isLoading ? (
@@ -133,7 +136,7 @@ const HomeDashboard: React.FC = () => {
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="5%" stopColor="#0047BB" stopOpacity={0.8} />
-                  <stop offset="70%" stopColor="#0047BB" stopOpacity={0} />
+                  <stop offset="100%" stopColor="#0047BB" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid stroke="#ccc" />
@@ -151,6 +154,7 @@ const HomeDashboard: React.FC = () => {
           </>
         )}
       </div>
+      <RecentCompaniesSlider />
     </section>
   );
 };
