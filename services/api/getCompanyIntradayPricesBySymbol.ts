@@ -1,7 +1,7 @@
 import https from 'https';
 
 import { BASE_URL } from '../../common/constants';
-import { IntradayPrice } from '../../core/hooks/useStocks';
+import { IntradayPrice } from '../../core/hooks/types';
 import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
 
 /**

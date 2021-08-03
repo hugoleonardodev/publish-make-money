@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Action } from '../actions';
-import { InitialState, initialState, stocksReducer } from '../reducers/index';
 import { CompanyQuote, IntradayPrice } from './types';
+import { InitialState, initialState, stocksReducer } from '../reducers/index';
 
 import { getCompanyQuoteBySymbol } from '../../services/api';
 import getLocalStorage from '../../services/store/getLocalStorage';

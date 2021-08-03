@@ -6,6 +6,8 @@ module.exports = {
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
   transform: {
     '^.+\\.(ts|tsx)$': 'babel-jest',
+    '\\.(jpg|jpeg|png|gif|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/__tests__/__mocks__/fileTransformer.js',
   },
   watchPlugins: [
     'jest-watch-typeahead/filename',
@@ -13,17 +15,15 @@ module.exports = {
   ],
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
   },
   collectCoverageFrom: [
     // ignores
     '!**/.next/**',
     '!**/node_modules/**',
     '!**/vendor/**',
-    '!**/types/**',
     // collects
     '**/*.{ts,tsx}',
     '/pages/**',
   ],
-  testTimeout: 60,
+  testTimeout: 60000,
 };

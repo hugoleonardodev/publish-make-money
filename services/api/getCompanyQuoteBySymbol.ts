@@ -1,7 +1,7 @@
 import https from 'https';
 
 import { BASE_URL } from '../../common/constants';
-import { CompanyQuote } from '../../core/hooks/useStocks';
+import { CompanyQuote } from '../../core/hooks/types';
 import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
 
 /**

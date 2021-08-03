@@ -6,8 +6,6 @@ import { StocksProvider } from '../core/hooks/useStocks';
 import { GlobalCss } from '../styles/global';
 import { monetusTheme } from '../styles/themes/muiThemes';
 
-import '../public/nprogress.css';
-
 interface JssStyles extends Element {
   parentNode: Node & ParentNode;
 }

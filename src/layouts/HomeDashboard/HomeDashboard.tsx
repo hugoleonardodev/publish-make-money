@@ -62,7 +62,7 @@ const HomeDashboard: React.FC = () => {
     <section style={{ margin: '32px' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <DashboardIcon style={{ zoom: '1.5' }} />
-        <h1 style={{ marginLeft: '16px' }}>Dasboard</h1>
+        <h1 style={{ marginLeft: '16px' }}>Dashboard</h1>
       </div>
       <div style={{ marginTop: '16px' }}>
         <TextField
@@ -76,6 +76,7 @@ const HomeDashboard: React.FC = () => {
           className={styles.searchButton}
           onClick={() => handleSearch(symbol)}
           id="search-button"
+          data-testid="search-button"
         >
           <Search style={{ zoom: '1.5' }} />
         </Button>
