@@ -30,10 +30,6 @@ Figma prototype [Figma](https://www.figma.com/file/QnP6TS75p4unSQyoz8GIRx/Teste-
 Cobertura de testes automatizados realizados com Jest. Ambiente configurado para rodar testes nas paginas do Next.
 Melhor rodar com mercado fechado para evitar mutações desnecessárias e consequentemente erros no teste.
 
-O next/image não passa nos testes se o src for importado. Como ocorre para executar o projeto. Então tem que ser
-substituido em src/components/UserOptionsDropdown/UserOptionsDropdown.tsx. Está comentado no arquivo. Para analize
-dos bundles a mesma coisa.
-
 ![image](/public/tests-image.png)
 
 ## Bundle Analyze

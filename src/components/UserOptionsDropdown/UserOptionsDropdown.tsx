@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import DropdownIcon from '../../../assets/icons/dropdown-icon.svg';
 // for tests and bundles analyzes '/../../../assets/images/avatar-image.png' on src Tmage
 // for running dev use import:
-import AvatarImage from '../../../assets/images/avatar-image.png';
+// import AvatarImage from '../../../assets/images/avatar-image.png';
 
 import useStyles from '../../../styles/hooks/useStyles';
 interface UserOptionsDropdownProps {
@@ -30,7 +30,7 @@ const UserOptionsDropdown: React.FC<UserOptionsDropdownProps> = ({
         >
           <div style={{ borderRadius: '50px', background: '#0047bb' }}>
             <Image
-              src={AvatarImage}
+              src="/assets/images/avatar-image.png"
               alt="Picture of the author"
               width={36}
               height={32}
