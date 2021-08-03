@@ -8,7 +8,7 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { IntradayPrice, useStocks } from '../../../core/hooks/useStocks';
+import { useStocks } from '../../../core/hooks/useStocks';
 import CompanyName from '../../components/CompanyName';
 import FavoriteButton from '../../components/FavoriteButton';
 import HighOrLow from '../../components/HighOrLow';
@@ -18,6 +18,7 @@ import useStyles from '../../../styles/hooks/useStyles';
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
 import LoadingChart from '../../components/LoadingChart/LoadingChart';
 import RecentCompaniesSlider from '../../containers/RecentCompaniesSlider/RecentCompaniesSlider';
+import { IntradayPrice } from '../../../core/hooks/types';
 
 const domain = [
   '09:30',
@@ -34,17 +35,28 @@ const domain = [
 
 const HomeDashboard: React.FC = () => {
   const styles = useStyles();
-  const { stock, handleInputSymbol, symbol, handleSearch, isLoading } =
-    useStocks();
+  const {
+    stock,
+    handleInputSymbol,
+    symbol,
+    handleSearch,
+    isLoading,
+    isMarketOpen,
+  } = useStocks();
   const { intradayPrice } = stock;
   const parseData = (intradayData: IntradayPrice[]) => {
+    // console.log(isMarketOpen);
     const domainHours = intradayData.map((e: IntradayPrice) => {
-      if (domain.some((f) => f === e.minute)) {
+      if (!isMarketOpen && domain.some((f) => f === e.minute)) {
         return {
           name: e.minute,
           uv: e.close,
         };
       }
+      return {
+        name: e.minute,
+        uv: e.close,
+      };
     });
     // console.log(domainHours);
     const result = domainHours.filter((g) => g !== undefined);
@@ -108,7 +120,7 @@ const HomeDashboard: React.FC = () => {
         ) : (
           <>
             <div style={{ display: 'flex', marginLeft: '24px' }}>
-              <FavoriteButton />
+              <FavoriteButton hasValue={stock.currentPrice.symbol} />
               <div
                 style={{
                   display: 'flex',

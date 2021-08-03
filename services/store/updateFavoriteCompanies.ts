@@ -15,7 +15,7 @@ const updateFavoriteCompanies = (
       company.symbol === companySymbol
   );
 
-  if (isFavorite === undefined) return false;
+  if (isFavorite.length > 0) return false;
   if (store) {
     const newFavoriteCompany = {
       name: companyName,
@@ -24,7 +24,7 @@ const updateFavoriteCompanies = (
     };
     const newFavoriteCompaniesArray = [
       newFavoriteCompany,
-      ...store.recentCompanies,
+      ...store.favoriteCompanies,
     ];
     const newStorageObject = {
       ...store,

@@ -1,7 +1,7 @@
 import intradayAppl from '../../common/constants/INTRADAY_APPL';
 import quoteAPPL from '../../common/constants/QUOTE_APPL';
 import { Action, StocksReducer } from '../actions';
-import { CompanyQuote, IntradayPrice } from '../hooks/useStocks';
+import { CompanyQuote, IntradayPrice } from '../hooks/types';
 
 export interface InitialState {
   currentPrice: CompanyQuote;

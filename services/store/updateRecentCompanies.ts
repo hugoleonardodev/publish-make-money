@@ -1,4 +1,5 @@
-import { CompanyQuote } from '../../core/hooks/useStocks';
+// import { CompanyQuote } from '../../core/hooks/useStocks';
+import { CompanyQuote } from '../../core/hooks/types';
 import getLocalStorage from './getLocalStorage';
 
 const updateRecentCompanies = (
@@ -15,7 +16,7 @@ const updateRecentCompanies = (
     (company) => company.symbol === symbol
   );
   // console.log(isRecent);
-  if (isRecent.length < 1) {
+  if (isRecent.length === 0) {
     const newRecentCompany = {
       name: recentSearch.companyName,
       symbol: recentSearch.symbol,

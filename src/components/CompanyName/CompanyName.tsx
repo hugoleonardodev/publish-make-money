@@ -1,5 +1,5 @@
 import React from 'react';
-import { CompanySymbol, CompanyTitles } from './styles';
+// import { CompanySymbol, CompanyTitles } from './styles';
 
 interface CompanyNameProps {
   companySymbol: string;
@@ -14,8 +14,10 @@ const CompanyName: React.FC<CompanyNameProps> = ({
   const fixedName = `${nameArray[0]} ${nameArray[1]}`;
   return (
     <div>
-      <CompanySymbol>{companySymbol}</CompanySymbol>
-      <CompanyTitles>{fixedName}</CompanyTitles>
+      <h3 style={{ margin: '0', paddingLeft: '8px' }}>{companySymbol}</h3>
+      <h5 style={{ margin: '0', opacity: '0.5', paddingLeft: '8px' }}>
+        {fixedName}
+      </h5>
     </div>
   );
 };

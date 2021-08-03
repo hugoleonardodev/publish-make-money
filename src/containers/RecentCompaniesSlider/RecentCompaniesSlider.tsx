@@ -3,31 +3,35 @@ import Carousel from 'react-elastic-carousel';
 // import getLocalStorage from '../../../services/store/getLocalStorage';
 import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
 import RecentCompaniesCard from '../../components/RecentCompaniesCard/RecentCompaniesCard';
-import { CarouselContainer } from './styles';
 
 import RecentCompaniesIcon from '../../../assets/icons/recent-companies-icon.svg';
-// import { StorageObject } from '../../../services/store/setLocalStorage';
 import { useStocks } from '../../../core/hooks/useStocks';
+import { StorageObject } from '../../../services/store/setLocalStorage';
+import getLocalStorage from '../../../services/store/getLocalStorage';
+// import { CarouselContainer } from './styles';
+import { CarouselContainer } from '../../../styles/components';
 
 const RecentCompaniesSlider: React.FC = () => {
-  const { storage } = useStocks();
-  // const [storage, setStorage] = React.useState({} as StorageObject);
+  const {
+    refreshFavorites,
+    setRefreshFavorites,
+    refreshRecents,
+    setRefreshRecents,
+    removeFavorite,
+  } = useStocks();
+  const [storage, setStorage] = React.useState({} as StorageObject);
 
-  // React.useEffect(() => {
-  //   const store = getLocalStorage();
-  //   // console.log(store);
-  //   setStorage(store);
-  // }, []);
-  // React.useEffect(() => {
-  //   // if (refreshRecents) {
-  //     const store = getLocalStorage();
-  //     // console.log(store);
-  //     // setRefreshRecents(false);
-  //     return setStorage(store);
-  //   // }
-  //   // return setRefreshRecents(false);
-  // }, []);
-  // console.log(storage.recentCompanies);
+  React.useEffect(() => {
+    const store = getLocalStorage();
+    setStorage(store);
+  }, [
+    refreshFavorites,
+    setRefreshFavorites,
+    refreshRecents,
+    setRefreshRecents,
+    removeFavorite,
+  ]);
+
   return (
     <CarouselContainer>
       <div

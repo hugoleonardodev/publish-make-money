@@ -32,7 +32,7 @@ const RecentCompaniesCard: React.FC<RecentCompaniesCardProps> = ({
       <div
         style={{ display: 'flex', alignItems: 'center', padding: '16px 8px' }}
       >
-        <FavoriteButton />
+        <FavoriteButton hasValue={companySymbol} />
         {companyLogo}
         <CompanyName companyName={companyName} companySymbol={companySymbol} />
       </div>

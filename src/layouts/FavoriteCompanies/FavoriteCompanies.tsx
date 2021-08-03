@@ -11,13 +11,20 @@ import { StorageObject } from '../../../services/store/setLocalStorage';
 import { useStocks } from '../../../core/hooks/useStocks';
 
 const FavoriteCompanies: React.FC = () => {
-  const { refreshRecents, setRefreshRecents } = useStocks();
+  const {
+    refreshRecents,
+    setRefreshRecents,
+    refreshFavorites,
+    setRefreshFavorites,
+    removeFavorite,
+  } = useStocks();
   const [storage, setStorage] = React.useState({} as StorageObject);
 
   React.useEffect(() => {
     const store = getLocalStorage();
     setStorage(store);
-  }, []);
+    setRefreshFavorites(false);
+  }, [refreshFavorites, setRefreshFavorites]);
   React.useEffect(() => {
     const store = getLocalStorage();
     setStorage(store);
@@ -49,6 +56,7 @@ const FavoriteCompanies: React.FC = () => {
                     cursor: 'pointer',
                     marginTop: '16px',
                   }}
+                  onClick={() => removeFavorite(company.symbol)}
                 >
                   <TrashIcon />
                 </button>
