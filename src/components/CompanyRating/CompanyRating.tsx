@@ -1,11 +1,14 @@
 import React from 'react';
+
 import HighIcon from '../../../assets/icons/high-icon.svg';
 import LowIcon from '../../../assets/icons/low-icon.svg';
-import { ERROR, SUCCESS } from '../HighOrLow/HighOrLow';
+
+import { ERROR, SUCCESS } from '../../../common/constants/THEME';
 
 interface CompanyRatingProps {
   companyRating: number;
 }
+
 const CompanyRating: React.FC<CompanyRatingProps> = ({ companyRating }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', paddingRight: '8px' }}>

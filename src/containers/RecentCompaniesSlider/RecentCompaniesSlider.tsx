@@ -1,14 +1,14 @@
 import React from 'react';
 import Carousel from 'react-elastic-carousel';
-// import getLocalStorage from '../../../services/store/getLocalStorage';
-import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
+import { useStocks } from '../../../core/hooks/useStocks';
 import RecentCompaniesCard from '../../components/RecentCompaniesCard/RecentCompaniesCard';
 
+import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
 import RecentCompaniesIcon from '../../../assets/icons/recent-companies-icon.svg';
-import { useStocks } from '../../../core/hooks/useStocks';
+
 import { StorageObject } from '../../../services/store/setLocalStorage';
 import getLocalStorage from '../../../services/store/getLocalStorage';
-// import { CarouselContainer } from './styles';
+
 import { CarouselContainer } from '../../../styles/components';
 
 const RecentCompaniesSlider: React.FC = () => {

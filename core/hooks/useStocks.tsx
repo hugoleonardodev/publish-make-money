@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { getCompanyQuoteBySymbol } from '../../services/api';
-
-import getLocalStorage from '../../services/store/getLocalStorage';
-
 import { Action } from '../actions';
-
 import { InitialState, initialState, stocksReducer } from '../reducers/index';
+import { CompanyQuote, IntradayPrice } from './types';
 
-import { BASE_URL } from '../../common/constants';
-import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+import { getCompanyQuoteBySymbol } from '../../services/api';
+import getLocalStorage from '../../services/store/getLocalStorage';
 import updateRecentCompanies from '../../services/store/updateRecentCompanies';
 import { StorageObject } from '../../services/store/setLocalStorage';
 import updateFavoriteCompanies from '../../services/store/updateFavoriteCompanies';
-import { CompanyQuote, IntradayPrice } from './types';
+
+import { BASE_URL } from '../../common/constants';
+import TOKEN_PUBLISHABLE from '../../common/constants/TOKEN_PUBLISHABLE';
+import deleteFavoriteCompany from '../../services/store/deleteFavoriteCompany';
 
 export interface StocksProvider {
   currentPrice: CompanyQuote;
@@ -32,7 +31,7 @@ export interface StocksContextData {
   handleInputSymbol: React.ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   >;
-  handleSearch: (searchSymbol: any) => Promise<void>;
+  handleSearch: (searchSymbol: string) => Promise<void>;
   refreshStock: boolean;
   refreshRecents: boolean;
   setRefreshRecents: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +39,7 @@ export interface StocksContextData {
   isMarketOpen: boolean;
   refreshFavorites: boolean;
   setRefreshFavorites: React.Dispatch<boolean>;
-  handleFavorite: (event: any) => Promise<void>;
+  handleFavorite: (companySymbol: string) => Promise<void>;
   removeFavorite: (companySymbol: string) => void;
 }
 
@@ -142,9 +141,8 @@ export const StocksProvider: React.FC = ({ children }) => {
   );
 
   const handleFavorite = React.useCallback(
-    async (event) => {
+    async (companySymbol) => {
       setRefreshFavorites(false);
-      const companySymbol = event;
       const newFavorite = await getCompanyQuoteBySymbol(companySymbol);
       const isUpdated = updateFavoriteCompanies(
         newFavorite.companyName,
@@ -163,21 +161,7 @@ export const StocksProvider: React.FC = ({ children }) => {
       setRefreshRecents(false);
       setRefreshFavorites(false);
       const store = getLocalStorage();
-      const filterFavorite = store.favoriteCompanies.filter(
-        (company) => company.symbol === companySymbol
-      );
-      const indexOfFavorite = store.favoriteCompanies.indexOf(
-        filterFavorite[0]
-      );
-      const newFavoriteCompanies = [
-        ...store.favoriteCompanies.slice(0, indexOfFavorite),
-        ...store.favoriteCompanies.slice(indexOfFavorite + 1),
-      ];
-      const newStorageObject = {
-        ...store,
-        favoriteCompanies: newFavoriteCompanies,
-      };
-      localStorage.setItem('monetusMoney', JSON.stringify(newStorageObject));
+      deleteFavoriteCompany(store, companySymbol);
       setRefreshRecents(true);
       setRefreshFavorites(true);
     },

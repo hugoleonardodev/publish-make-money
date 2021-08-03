@@ -1,5 +1,4 @@
 import React from 'react';
-// import { CompanySymbol, CompanyTitles } from './styles';
 
 interface CompanyNameProps {
   companySymbol: string;

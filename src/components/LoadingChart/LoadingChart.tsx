@@ -1,20 +1,7 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      '& > * + *': {
-        marginLeft: theme.spacing(2),
-      },
-      justifyContent: 'center',
-      height: '372px',
-      alignItems: 'center',
-    },
-  })
-);
+import useStyles from '../../../styles/hooks/useStyles';
 
 const NotFound: React.FC = () => {
   return (
@@ -34,7 +21,7 @@ const NotFound: React.FC = () => {
   );
 };
 const LoadingChart: React.FC = () => {
-  const classes = useStyles();
+  const styles = useStyles();
   const [isNotFound, setIsNotFound] = React.useState(false);
 
   React.useEffect(() => {
@@ -45,7 +32,7 @@ const LoadingChart: React.FC = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
+    <div className={styles.loadingChart}>
       <div
         style={{
           display: 'flex',

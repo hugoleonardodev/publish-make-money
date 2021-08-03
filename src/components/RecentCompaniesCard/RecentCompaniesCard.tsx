@@ -2,6 +2,9 @@ import React from 'react';
 import CompanyName from '../CompanyName';
 import CompanyRating from '../CompanyRating/CompanyRating';
 import FavoriteButton from '../FavoriteButton';
+import { useStocks } from '../../../core/hooks/useStocks';
+
+import useStyles from '../../../styles/hooks/useStyles';
 
 interface RecentCompaniesCardProps {
   companyLogo: JSX.Element;
@@ -16,18 +19,12 @@ const RecentCompaniesCard: React.FC<RecentCompaniesCardProps> = ({
   companySymbol,
   companyRating,
 }) => {
+  const { handleSearch } = useStocks();
+  const styles = useStyles();
   return (
     <div
-      style={{
-        display: 'flex',
-        width: '352px',
-        justifyContent: 'space-between',
-        boxShadow: '0px 8px 20px -2px rgb(43 37 63 / 10%)',
-        borderRadius: '8px',
-        marginTop: '20px',
-        alignItems: 'center',
-        background: '#fafafa',
-      }}
+      className={styles.recentCard}
+      onClick={() => handleSearch(companySymbol)}
     >
       <div
         style={{ display: 'flex', alignItems: 'center', padding: '16px 8px' }}
@@ -37,7 +34,6 @@ const RecentCompaniesCard: React.FC<RecentCompaniesCardProps> = ({
         <CompanyName companyName={companyName} companySymbol={companySymbol} />
       </div>
       <CompanyRating companyRating={companyRating} />
-      {/* <button>Remove</button> */}
     </div>
   );
 };

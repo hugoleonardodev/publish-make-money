@@ -7,7 +7,7 @@ export const GlobalCss = withStyles({
   // @global is handled by jss-plugin-global.
   '@global': {
     // You should target [class*="MuiButton-root"] instead if you nest themes.
-    '.PrivateTabIndicator-root-6': {
+    '.PrivateTabIndicator-root-8': {
       left: '0',
     },
     '.MuiTooltip-tooltip': {
@@ -27,7 +27,7 @@ export const GlobalCss = withStyles({
     '.MuiInputLabel-outlined': {
       transform: 'translate(14px, 12px) scale(1)',
     },
-    '.MuiBox-root-10': {
+    '.MuiBox-root': {
       backgroundColor: ' rgba(0, 0, 255, 0.08)',
       padding: 0,
     },

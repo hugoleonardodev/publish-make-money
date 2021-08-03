@@ -1,11 +1,12 @@
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import { AppProps } from 'next/dist/next-server/lib/router/router';
 import React from 'react';
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { StocksProvider } from '../core/hooks/useStocks';
 
-import '../public/nprogress.css';
 import { GlobalCss } from '../styles/global';
 import { monetusTheme } from '../styles/themes/muiThemes';
+
+import '../public/nprogress.css';
 
 interface JssStyles extends Element {
   parentNode: Node & ParentNode;

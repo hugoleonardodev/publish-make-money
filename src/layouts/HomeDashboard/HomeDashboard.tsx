@@ -8,33 +8,23 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { useStocks } from '../../../core/hooks/useStocks';
 import CompanyName from '../../components/CompanyName';
 import FavoriteButton from '../../components/FavoriteButton';
 import HighOrLow from '../../components/HighOrLow';
 import RechartToolTip from '../../components/RechartToolTip/RechartToolTip';
-import Search from '../../../assets/icons/search-icon.svg';
-import useStyles from '../../../styles/hooks/useStyles';
-import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
 import LoadingChart from '../../components/LoadingChart/LoadingChart';
 import RecentCompaniesSlider from '../../containers/RecentCompaniesSlider/RecentCompaniesSlider';
-import { IntradayPrice } from '../../../core/hooks/types';
+import { useStocks } from '../../../core/hooks/useStocks';
 
-const domain = [
-  '09:30',
-  '10:00',
-  '10:00',
-  '11:00',
-  '12:00',
-  '13:00',
-  '14:00',
-  '15:00',
-  '15:30',
-  '15:59',
-];
+import Search from '../../../assets/icons/search-icon.svg';
+import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
+
+import { addListenerToHitSearchButtonWithEnter } from '../../../common/helpers';
+import parseData from '../../../common/helpers/parseData';
+
+import useStyles from '../../../styles/hooks/useStyles';
 
 const HomeDashboard: React.FC = () => {
-  const styles = useStyles();
   const {
     stock,
     handleInputSymbol,
@@ -43,28 +33,12 @@ const HomeDashboard: React.FC = () => {
     isLoading,
     isMarketOpen,
   } = useStocks();
-  const { intradayPrice } = stock;
-  const parseData = (intradayData: IntradayPrice[]) => {
-    // console.log(isMarketOpen);
-    const domainHours = intradayData.map((e: IntradayPrice) => {
-      if (!isMarketOpen && domain.some((f) => f === e.minute)) {
-        return {
-          name: e.minute,
-          uv: e.close,
-        };
-      }
-      return {
-        name: e.minute,
-        uv: e.close,
-      };
-    });
-    // console.log(domainHours);
-    const result = domainHours.filter((g) => g !== undefined);
 
-    return result;
-  };
-  const data = parseData(intradayPrice);
-  // console.log(data);
+  const styles = useStyles();
+
+  const { intradayPrice } = stock;
+
+  const chartParsedData = parseData(intradayPrice, isMarketOpen);
 
   const CustomTooltip = ({ active, payload, _label }: any) => {
     if (active && payload && payload.length) {
@@ -74,14 +48,16 @@ const HomeDashboard: React.FC = () => {
             style={{ color: 'white' }}
             className="label"
           >{`$${payload[0].value}`}</p>
-          {/* <p className="intro">{getIntroOfPage(label)}</p> */}
-          {/* <p className="desc">Anything you want can be displayed here.</p> */}
         </RechartToolTip>
       );
     }
-
     return null;
   };
+
+  React.useEffect(() => {
+    addListenerToHitSearchButtonWithEnter();
+  }, []);
+
   return (
     <section style={{ margin: '32px' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -90,16 +66,16 @@ const HomeDashboard: React.FC = () => {
       </div>
       <div style={{ marginTop: '16px' }}>
         <TextField
-          id="outlined-basic"
+          id="input-text"
           label="Buscar empresa"
           variant="outlined"
           onChange={handleInputSymbol}
           value={symbol}
         />
-
         <Button
           className={styles.searchButton}
           onClick={() => handleSearch(symbol)}
+          id="search-button"
         >
           <Search style={{ zoom: '1.5' }} />
         </Button>
@@ -143,7 +119,7 @@ const HomeDashboard: React.FC = () => {
             <AreaChart
               width={720}
               height={320}
-              data={data}
+              data={chartParsedData}
               style={{ marginTop: '16px' }}
             >
               <defs>

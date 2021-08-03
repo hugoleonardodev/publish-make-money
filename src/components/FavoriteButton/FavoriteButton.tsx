@@ -1,13 +1,15 @@
 import React from 'react';
+import ToolTip from '@material-ui/core/Tooltip';
+
 import IsFavorite from '../../../assets/icons/is-favorite-icon.svg';
 import Favorite from '../../../assets/icons/favorite-icon.svg';
-import ToolTip from '@material-ui/core/Tooltip';
-import useStyles from '../../../styles/hooks/useStyles';
-import getLocalStorage from '../../../services/store/getLocalStorage';
+
 import { useStocks } from '../../../core/hooks/useStocks';
+import getLocalStorage from '../../../services/store/getLocalStorage';
+import useStyles from '../../../styles/hooks/useStyles';
 
 interface FavoriteButtonProps {
-  hasValue?: string | number | readonly string[];
+  hasValue: string;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ hasValue }) => {

@@ -4,7 +4,6 @@ import useStyles from '../../../styles/hooks/useStyles';
 
 interface RechartToolTipProps {
   children: React.ReactElement<any, any>;
-  // price: number;
 }
 
 const RechartToolTip: React.FC<RechartToolTipProps> = ({ children }) => {

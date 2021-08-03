@@ -2,14 +2,13 @@ import React from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import HomeDashboard from '../../layouts/HomeDashboard/HomeDashboard';
+import FavoriteCompanies from '../../layouts/FavoriteCompanies/FavoriteCompanies';
 
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
 import MonetusLogo from '../../../assets/logos/monetus-logo.svg';
 
 import useStyles from '../../../styles/hooks/useStyles';
-import HomeDashboard from '../../layouts/HomeDashboard/HomeDashboard';
-import FavoriteCompanies from '../../layouts/FavoriteCompanies/FavoriteCompanies';
-// import { useStocks } from '../../../core/hooks/useStocks';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,14 +41,13 @@ function a11yProps(index: any) {
 
 const HomePage: React.FC = () => {
   const classes = useStyles();
-  // const { isLoading } = useStocks();
 
   const [value, setValue] = React.useState(2);
 
   const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
     setValue(newValue);
   };
-  // if (isLoading) return <div>Loading</div>;
+
   return (
     <main className={classes.main}>
       <Tabs

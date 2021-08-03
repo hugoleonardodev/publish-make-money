@@ -27,19 +27,60 @@ const useStyles = makeStyles((theme: Theme) => ({
     // color: theme.palette
   },
   searchButton: {
-    // minHeight: theme.spacing(8),
-    // height: '-webkit-fill-available',
     fontSize: theme.spacing(5),
-    // padding: theme.spacing(2),
     border: '2px solid rgba(0, 0, 0, 0.23)',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    // width: '-webkit-fill-available',
-    // margin: theme.spacing(2),
-    // textTransform: 'capitalize',
     '&:hover': {
       backgroundColor: theme.palette.primary.light,
     },
+  },
+  favoriteCard: {
+    display: 'flex',
+    width: '352px',
+    justifyContent: 'space-between',
+    boxShadow: '0px 8px 20px -2px rgb(43 37 63 / 10%)',
+    borderRadius: '8px',
+    marginTop: '20px',
+    alignItems: 'center',
+    background: '#fafafa',
+    cursor: 'pointer',
+    transition: 'transform 0.3s',
+    '&:hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+  recentCard: {
+    display: 'flex',
+    width: '352px',
+    justifyContent: 'space-between',
+    boxShadow: '0px 8px 20px -2px rgb(43 37 63 / 10%)',
+    borderRadius: '8px',
+    marginTop: '20px',
+    alignItems: 'center',
+    background: '#fafafa',
+    cursor: 'pointer',
+    transition: 'transform 0.3s',
+    '&:hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+  loadingChart: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+    justifyContent: 'center',
+    height: '372px',
+    alignItems: 'center',
+  },
+  dropDownConainer: {
+    width: '100%',
+  },
+  dropDownHeading: {
+    color: theme.palette.primary.main,
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
   },
 }));
 

@@ -1,39 +1,35 @@
 import React from 'react';
 import CompanyName from '../CompanyName';
 import CompanyRating from '../CompanyRating/CompanyRating';
+import { useStocks } from '../../../core/hooks/useStocks';
 
-interface FavoriteCompaniesCard {
+import useStyles from '../../../styles/hooks/useStyles';
+
+interface FavoriteCompaniesCardProps {
   companyLogo: JSX.Element;
   companyName: string;
   companySymbol: string;
   companyRating: number;
 }
 
-const FavoriteCompaniesCard: React.FC<FavoriteCompaniesCard> = ({
+const FavoriteCompaniesCard: React.FC<FavoriteCompaniesCardProps> = ({
   companyLogo,
   companyName,
   companySymbol,
   companyRating,
 }) => {
+  const { handleSearch } = useStocks();
+  const styles = useStyles();
   return (
     <div
-      style={{
-        display: 'flex',
-        width: '352px',
-        justifyContent: 'space-between',
-        boxShadow: '0px 8px 20px -2px rgb(43 37 63 / 10%)',
-        borderRadius: '8px',
-        marginTop: '20px',
-        alignItems: 'center',
-        background: '#fafafa',
-      }}
+      className={styles.favoriteCard}
+      onClick={() => handleSearch(companySymbol)}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {companyLogo}
         <CompanyName companyName={companyName} companySymbol={companySymbol} />
       </div>
       <CompanyRating companyRating={companyRating} />
-      {/* <button>Remove</button> */}
     </div>
   );
 };
