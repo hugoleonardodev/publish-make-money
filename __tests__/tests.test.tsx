@@ -1,13 +1,10 @@
 import '@testing-library/jest-dom';
-// import * as Router from 'next/router';
-// import { useRouter } from 'next/router';
 import { getPage } from 'next-page-tester';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import { act } from 'react-dom/test-utils';
 
 describe('Tests the behavior of the application. General routines and expected values.', () => {
-  it('should renders Monetus Money app home (index) page renders on Jest (JSDOM) environment', async () => {
+  it('should renders makeMoney app home (index) page renders on Jest (JSDOM) environment', async () => {
     const options = { route: '/', useDocument: true };
     const { render } = await getPage(options);
     render();

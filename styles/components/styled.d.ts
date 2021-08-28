@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import 'styled-components';
 
-import { monetusTheme } from '../themes/muiThemes';
+import { makeMoneyTheme } from '../themes/muiThemes';
 
-export type StyledTheme = typeof monetusTheme;
+export type StyledTheme = typeof makeMoneyTheme;
 
 declare module 'styled-components' {
   export interface StyledComponents extends StyledTheme {}

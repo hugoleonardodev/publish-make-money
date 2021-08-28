@@ -14,13 +14,13 @@ import { StorageObject } from './setLocalStorage';
 // }
 
 const getLocalStorage = (): StorageObject => {
-  const storage = localStorage.getItem('monetusMoney');
+  const storage = localStorage.getItem('makeMoney');
 
   if (!storage) {
-    localStorage.setItem('monetusMoney', JSON.stringify(STORAGE_OBJECT));
+    localStorage.setItem('makeMoney', JSON.stringify(STORAGE_OBJECT));
   }
 
-  const storageBefore = localStorage.getItem('monetusMoney');
+  const storageBefore = localStorage.getItem('makeMoney');
   let result;
   if (storageBefore) {
     result = JSON.parse(storageBefore);

@@ -30,7 +30,7 @@ const updateFavoriteCompanies = (
       ...store,
       favoriteCompanies: newFavoriteCompaniesArray,
     };
-    localStorage.setItem('monetusMoney', JSON.stringify(newStorageObject));
+    localStorage.setItem('makeMoney', JSON.stringify(newStorageObject));
     return true;
   }
 };

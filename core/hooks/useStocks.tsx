@@ -59,7 +59,7 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   const [symbol, setSymbol] = React.useState('');
 
-  const [isMarketOpen, setIsMarketOpen] = React.useState(false);
+  const [isMarketOpen, setIsMarketOpen] = React.useState(true);
 
   const [refreshStock, setRefreshStock] = React.useState(false);
 
@@ -184,14 +184,36 @@ export const StocksProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     // eslint-disable-next-line no-console
+    console.log('Refresh Indicator High/Low every 5 seconds if isMarketOpen');
+    setRefreshStock(false);
+    let fiveSecondsTimer: NodeJS.Timeout;
+    if (isMarketOpen) {
+      fiveSecondsTimer = setTimeout(async () => {
+        const companyQuote = await getCompanyQuoteBySymbol(recentSymbol);
+        if (companyQuote.isUSMarketOpen && !refreshStock) {
+          setStock({
+            type: '@stocks/UPDATE_REAL_TIME_QUOTES',
+            payload: companyQuote,
+          });
+          setRefreshStock(true);
+        }
+      }, 5000);
+    }
+    // setIsMarketOpen(false);
+
+    return () => clearTimeout(fiveSecondsTimer);
+  }, [isMarketOpen, setRefreshStock, refreshStock, recentSymbol]);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log('Refresh Charts every minute if isMarketOpen');
     setRefreshChart(true);
     const oneMinuteTimer = setTimeout(async () => {
       const resultQuote = await getCompanyQuoteBySymbol(recentSymbol);
       if (resultQuote.isUSMarketOpen) {
         handleRequest(recentSymbol, setStock, resultQuote);
-        setIsMarketOpen(true);
         setRefreshChart(false);
+        return setIsMarketOpen(true);
       }
       setIsMarketOpen(false);
     }, 60000);
@@ -204,28 +226,6 @@ export const StocksProvider: React.FC = ({ children }) => {
     setRefreshChart,
     refreshChart,
   ]);
-
-  React.useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Refresh Indicator High/Low every 5 seconds if isMarketOpen');
-    setRefreshStock(false);
-    let fiveSecondsTimer: NodeJS.Timeout;
-    if (isMarketOpen) {
-      fiveSecondsTimer = setTimeout(async () => {
-        const companyQuote = await getCompanyQuoteBySymbol(recentSymbol);
-        if (isMarketOpen && !refreshStock) {
-          setStock({
-            type: '@stocks/UPDATE_REAL_TIME_QUOTES',
-            payload: companyQuote,
-          });
-          setRefreshStock(true);
-        }
-      }, 5000);
-    }
-    setIsMarketOpen(false);
-
-    return () => clearTimeout(fiveSecondsTimer);
-  }, [isMarketOpen, setRefreshStock, refreshStock, recentSymbol]);
 
   return (
     <StocksContext.Provider

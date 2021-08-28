@@ -30,7 +30,7 @@ const updateRecentCompanies = (
       ...store,
       recentCompanies: newRecentCompaniesArray,
     };
-    localStorage.setItem('monetusMoney', JSON.stringify(newStorageObject));
+    localStorage.setItem('makeMoney', JSON.stringify(newStorageObject));
     return false;
   }
   return true;

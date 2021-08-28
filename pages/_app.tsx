@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { StocksProvider } from '../core/hooks/useStocks';
 
 import { GlobalCss } from '../styles/global';
-import { monetusTheme } from '../styles/themes/muiThemes';
+import { makeMoneyTheme } from '../styles/themes/muiThemes';
 
 interface JssStyles extends Element {
   parentNode: Node & ParentNode;
@@ -22,7 +22,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={monetusTheme}>
+    <ThemeProvider theme={makeMoneyTheme}>
       <StocksProvider>
         <GlobalCss />
         <CssBaseline />

@@ -13,10 +13,10 @@ export interface StorageObject {
 }
 
 const setLocalStorage = (): StorageObject | void => {
-  const storage = localStorage.getItem('monetusMoney');
+  const storage = localStorage.getItem('makeMoney');
 
   if (!storage) {
-    return localStorage.setItem('monetusMoney', JSON.stringify(STORAGE_OBJECT));
+    return localStorage.setItem('makeMoney', JSON.stringify(STORAGE_OBJECT));
   }
 
   const result = JSON.parse(storage);

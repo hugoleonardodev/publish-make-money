@@ -5,8 +5,8 @@ import UserOptionsDropdown from '../../components/UserOptionsDropdown/UserOption
 import LoadingChart from '../../components/LoadingChart/LoadingChart';
 import FavoriteCompaniesList from '../../containers/FavoriteCompaniesList/FavoriteCompaniesList';
 
-import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
 import TrashIcon from '../../../assets/icons/trash-icon.svg';
+import MainIcon from '../../../assets/icons/main-icon.svg';
 
 import getLocalStorage from '../../../services/store/getLocalStorage';
 import { StorageObject } from '../../../services/store/setLocalStorage';
@@ -47,7 +47,7 @@ const FavoriteCompanies: React.FC = () => {
                 style={{ display: 'flex', alignItems: 'center' }}
               >
                 <FavoriteCompaniesCard
-                  companyLogo={<MonetusIcon style={{ margin: '16px 16px' }} />}
+                  companyLogo={<MainIcon style={{ margin: '16px 16px' }} />}
                   companyName={company.name}
                   companySymbol={company.symbol}
                   companyRating={company.rating}

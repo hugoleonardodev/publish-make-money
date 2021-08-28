@@ -6,7 +6,7 @@ import HomeDashboard from '../../layouts/HomeDashboard/HomeDashboard';
 import FavoriteCompanies from '../../layouts/FavoriteCompanies/FavoriteCompanies';
 
 import DashboardIcon from '../../../assets/icons/dashboard-icon.svg';
-import MonetusLogo from '../../../assets/logos/monetus-logo.svg';
+import MainIcon from '../../../assets/icons/main-icon.svg';
 
 import useStyles from '../../../styles/hooks/useStyles';
 
@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
         className={classes.tabs}
       >
         <Tab
-          label={<MonetusLogo />}
+          label={<MainIcon />}
           {...a11yProps(0)}
           disabled
           style={{ opacity: '1' }}

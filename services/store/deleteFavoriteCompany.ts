@@ -16,7 +16,7 @@ const deleteFavoriteCompany = (
     ...store,
     favoriteCompanies: newFavoriteCompanies,
   };
-  return localStorage.setItem('monetusMoney', JSON.stringify(newStorageObject));
+  return localStorage.setItem('makeMoney', JSON.stringify(newStorageObject));
 };
 
 export default deleteFavoriteCompany;

@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
-const monetus = createTheme({
+const makeMoney = createTheme({
   palette: {
     primary: {
       light: '#5972ee',
@@ -35,4 +35,4 @@ const monetus = createTheme({
   },
 });
 
-export const monetusTheme = responsiveFontSizes(monetus);
+export const makeMoneyTheme = responsiveFontSizes(makeMoney);

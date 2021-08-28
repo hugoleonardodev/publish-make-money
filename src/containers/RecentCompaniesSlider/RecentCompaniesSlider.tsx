@@ -3,7 +3,7 @@ import Carousel from 'react-elastic-carousel';
 import { useStocks } from '../../../core/hooks/useStocks';
 import RecentCompaniesCard from '../../components/RecentCompaniesCard/RecentCompaniesCard';
 
-import MonetusIcon from '../../../assets/logos/monetus-logo.svg';
+import MainIcon from '../../../assets/icons/main-icon.svg';
 import RecentCompaniesIcon from '../../../assets/icons/recent-companies-icon.svg';
 
 import { StorageObject } from '../../../services/store/setLocalStorage';
@@ -57,7 +57,7 @@ const RecentCompaniesSlider: React.FC = () => {
           storage.recentCompanies.map((company, index) => (
             <RecentCompaniesCard
               key={`${company.name}-${index}`}
-              companyLogo={<MonetusIcon style={{ zoom: '0.75' }} />}
+              companyLogo={<MainIcon style={{ zoom: '0.75' }} />}
               companyName={company.name}
               companySymbol={company.symbol}
               companyRating={company.rating}

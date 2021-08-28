@@ -19,7 +19,9 @@ const FavoriteCompaniesCard: React.FC<FavoriteCompaniesCardProps> = ({
   companyRating,
 }) => {
   const { handleSearch } = useStocks();
+
   const styles = useStyles();
+
   return (
     <div
       className={styles.favoriteCard}
